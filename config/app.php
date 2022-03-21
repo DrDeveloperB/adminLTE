@@ -53,6 +53,10 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'admin_url' => env('ADMIN_URL', 'http://localhost'),
+    'api_url' => env('API_URL', 'http://localhost'),
+    'image_url' => env('IMAGE_URL', 'http://localhost'),
+    'login_url' => env('LOGIN_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -67,7 +71,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Seoul',        // UTC      Asia/Seoul
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +84,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ko',       // en   ko
 
     /*
     |--------------------------------------------------------------------------
@@ -106,7 +110,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'ko_KR',      // en_US    ko_KR
 
     /*
     |--------------------------------------------------------------------------
@@ -231,4 +235,155 @@ return [
 
     ],
 
+    'request_scheme' => isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === 443 ? 'https' : 'http',     // $_SERVER['REQUEST_SCHEME']
+    'banner_post_view' => '{{_BANNER_}}',           // 포스트 상세 띠배너 코드
+
+    'defaultMenu' => [
+        [
+            'code' => 'posts',
+            'name' => '포스팅',
+            'sub' => [
+                [
+                    'code' => '',
+                    'name' => '전체',
+                ],
+                [
+                    'code' => '10',
+                    'name' => '감동',
+                ],
+                [
+                    'code' => '20',
+                    'name' => '좋은 글',
+                ],
+                [
+                    'code' => '25',
+                    'name' => '짧고 좋은 글',
+                ],
+                [
+                    'code' => '30',
+                    'name' => '유명인',
+                ],
+                [
+                    'code' => '40',
+                    'name' => '나만 몰랐던 이야기',
+                ],
+                [
+                    'code' => '50',
+                    'name' => '명화',
+                ],
+            ]
+        ],
+        [
+            'code' => 'comments',
+            'name' => '댓글',
+            'sub' => [
+                [
+                    'code' => '',
+                    'name' => '전체',
+                ],
+                [
+                    'code' => '1',
+                    'name' => '일반',
+                ],
+                [
+                    'code' => '2',
+                    'name' => '숨김',
+                ],
+                [
+                    'code' => '3',
+                    'name' => '삭제',
+                ],
+                [
+                    'code' => '4',
+                    'name' => '차단',
+                ],
+            ]
+        ],
+        [
+            'code' => 'notice',
+            'name' => '공지사항',
+        ],
+        [
+            'code' => 'qna',
+            'name' => '고객센터',
+        ],
+        [
+            'code' => 'visit_hour',
+            'name' => '시간별',
+        ],
+        [
+            'code' => 'visit_day',
+            'name' => '일별',
+        ],
+        [
+            'code' => 'visit_month',
+            'name' => '월별',
+        ],
+        [
+            'code' => 'push_set',
+            'name' => '푸시 설정',
+        ],
+        [
+            'code' => 'push_log',
+            'name' => '푸시 결과',
+        ],
+        [
+            'code' => 'member',
+            'name' => '회원',
+            'sub' => [
+                [
+                    'code' => 'member_list',
+                    'name' => '회원 관리',
+                ],
+                [
+                    'code' => 'member_withdraw',
+                    'name' => '탈퇴 회원 관리',
+                ],
+            ]
+        ],
+        [
+            'code' => 'intro',
+            'name' => '인트로 설정',
+        ],
+        [
+            'code' => 'setting',
+            'name' => '설정',
+        ],
+        [
+            'code' => 'banner',
+            'name' => '배너 관리',
+            'sub' => [
+                [
+                    'code' => 'banner_end',
+                    'name' => '종료 배너 관리',
+                ],
+                [
+                    'code' => 'banner_end_manager',
+                    'name' => '종료 배너 (기본 / 예약 관리)',
+                ],
+                [
+                    'code' => 'banner_main',
+                    'name' => '띠배너 관리 (홈메인)',
+                ],
+                [
+                    'code' => 'banner_view',
+                    'name' => '띠배너 관리 (상세)',
+                ],
+            ]
+        ],
+    ],
+
+    /**
+     * 아침편지 구버전 파일 경로
+     */
+    'storage_old' => [
+        'img_po' => '/data/image/',                         // 기타 이미지 경로 : 게시물 이동아이콘
+        'img_po_thumb' => '/data/image/thumb/',             // 게시물 이미지 썸네일 경로
+        'img_editor' => '/data/editor/',                    // 네이버 스마트 에디터 이미지 경로
+        'img_banner' => '/data/banner/',                    // 배너 이미지 경로
+        'img_push' => '/data/noti/',                        // 푸시 이미지 경로
+        'img_profile' => '/data/profile/',                  // 프로필 이미지 경로
+        'img_profile_thumb' => '/data/profile/thumb/',      // 프로필 이미지 썸네일 경로
+        'img_cmt' => '/data/cmt/',                          // 관리자 댓글 이미지 경로
+    ],
 ];

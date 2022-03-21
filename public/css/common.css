@@ -1,0 +1,116 @@
+@charset "UTF-8";
+body {
+  font-family: 맑은 고딕, Malgun Gothic, 돋움, Dotum, sans-serif;
+}
+
+/* 로고 시작 */
+.logo_wrapper {
+  text-align: center;
+}
+.logo_wrapper .logo {
+  font-size: 30px;
+  font-weight: 700;
+  background: linear-gradient(to right, #095fab 10%, #25abe8 50%, #57d75b 60%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-animation: textclip 3.5s linear infinite;
+  display: inline-block;
+}
+
+@-webkit-keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+/* 로고 종료 */
+/* 스위치 UI 시작 */
+.theme-switch {
+  display: inline-block;
+  height: 24px;
+  position: relative;
+  width: 50px;
+}
+
+.theme-switch input {
+  display: none;
+}
+
+.slider {
+  background-color: #ccc;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: 400ms;
+}
+
+.slider::before {
+  background-color: #fff;
+  bottom: 4px;
+  content: "";
+  height: 16px;
+  left: 4px;
+  position: absolute;
+  transition: 400ms;
+  width: 16px;
+}
+
+input:checked + .slider {
+  background-color: #66bb6a;
+}
+
+input:checked + .slider::before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round::before {
+  border-radius: 50%;
+}
+
+/* 스위치 UI 종료 */
+/**
+포스팅
+ */
+.thumbnail img {
+  width: 120px;
+}
+
+.banner_icon img {
+  width: 40px;
+}
+
+/**
+파일 첨부 태그 텍스트 변경
+Browse > 찾기
+ */
+.custom-file-label::after {
+  content: "찾기";
+}
+
+/**
+다크모드 선택 박스 화살표 색상 변경
+ */
+.dark-mode select {
+  background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='rgb(256,256,256)' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") right 0.75rem center/8px 10px no-repeat;
+}
+
+/**
+datatable 정렬 선택 화살표 색상 변경
+ */
+table.dataTable > thead .sorting_asc:before, table.dataTable > thead .sorting_desc:after {
+  opacity: 1;
+  color: #ff0000;
+}

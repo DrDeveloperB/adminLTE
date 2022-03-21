@@ -48,10 +48,35 @@ return [
     */
 
     'channels' => [
+        'log_test' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/test.log'),
+            'days' => 14,
+//            'permission' => 0775,
+//            'level' => 'info',
+        ],
+
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['log_test2', 'log_test3'],
+//            'channels' => ['single'],
             'ignore_exceptions' => false,
+        ],
+
+        'log_test2' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/test2.log'),
+            //'level' => 'info',
+            'days' => 14,
+//            'permission' => 0775,
+        ],
+
+        'log_test3' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/test3.log'),
+            //'level' => 'info',
+            'days' => 14,
+//            'permission' => 0775,
         ],
 
         'single' => [

@@ -42,16 +42,39 @@ return [
             'visibility' => 'public',
         ],
 
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+        //----- diks 정보 추가 시작 --------------------------------------------------
+        /**
+         * 저장소 경로 : 윈도우 \ , 리눅스 /
+         * url 경로 = /
+         */
+        'editor' => [
+            'driver' => 'local',
+            'root' => storage_path('app/editor'),
+            'url' => '/editor',
+//            'url' => env('APP_URL').'/editor',
         ],
+        'thumb' => [
+            'driver' => 'local',
+            'root' => storage_path('app/thumb'),
+            'url' => '/thumb',
+        ],
+        'post-banner' => [
+            'driver' => 'local',
+            'root' => storage_path('app/post-banner'),
+            'url' => '/post-banner',
+        ],
+        //----- diks 정보 추가 끝 --------------------------------------------------
+
+//        's3' => [
+//            'driver' => 's3',
+//            'key' => env('AWS_ACCESS_KEY_ID'),
+//            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+//            'region' => env('AWS_DEFAULT_REGION'),
+//            'bucket' => env('AWS_BUCKET'),
+//            'url' => env('AWS_URL'),
+//            'endpoint' => env('AWS_ENDPOINT'),
+//            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+//        ],
 
     ],
 
@@ -68,6 +91,9 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('editor') => storage_path('app/editor'),
+        public_path('thumb') => storage_path('app/thumb'),
+        public_path('post-banner') => storage_path('app/post-banner'),
     ],
 
 ];
