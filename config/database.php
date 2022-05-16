@@ -65,7 +65,7 @@ return [
 
         'morningletters' => [
             'driver' => 'mysql',
-            'url' => env('DATABASE_URL_MORNINGLETTERS'),
+            'url' => env('DB_CONNECTION_MORNINGLETTERS'),
             'host' => env('DB_HOST_MORNINGLETTERS', '127.0.0.1'),
             'port' => env('DB_PORT_MORNINGLETTERS', '3306'),
             'database' => env('DB_DATABASE_MORNINGLETTERS', 'forge'),

@@ -149,3 +149,10 @@ table.dataTable > thead .sorting_asc:before, table.dataTable > thead .sorting_de
     opacity: 1;
     color: #ff0000;
 }
+
+/**
+다크모드 고정헤더 배경색 변경
+ */
+.dark-mode table.dataTable.fixedHeader-floating {
+    background-color: #343a40;
+}

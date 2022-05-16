@@ -11,9 +11,10 @@
                     <div class="col-sm-6">
                         <!-- SEARCH FORM -->
                         <form class="w-50">
+{{--                        <form class="w-50" onsubmit="return false;">--}}
                             <input type="hidden" id="subMenuCode" name="subMenuCode" value="{{ $subMenuCode }}">
                             <div class="input-group input-group-sm">
-                                <input class="form-control bg-light border border-success border-right-0" type="search" id="keyWord" name="keyWord" placeholder="검색" aria-label="Search" value="{{ $keyWord }}">
+                                <input class="form-control bg-light border border-success border-right-0" type="text" id="keyWord" name="keyWord" placeholder="검색" aria-label="Search" value="{{ $keyWord }}">
                                 <div class="input-group-append">
                                     <button class="flex btn bg-light border border-success border-left-0 rounded-right" type="submit">
                                         <i class="fas fa-search"></i>
@@ -51,21 +52,61 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <table id="grid1" class="table table-bordered" role="grid">
+{{--                                            <colgroup>--}}
+{{--                                                <col style="width: 34px;">--}}
+{{--                                                <col style="width: 120px;">--}}
+{{--                                                <col style="width: 133px;">--}}
+{{--                                                <col style="width: 120px;">--}}
+{{--                                                <col>--}}
+{{--                                                <col style="width: 84px;">--}}
+{{--                                                <col style="width: 96px;">--}}
+{{--                                                <col style="width: 80px;">--}}
+{{--                                                <col style="width: 52px;">--}}
+{{--                                                <col style="width: 36px;">--}}
+{{--                                                <col style="width: 36px;">--}}
+{{--                                                <col style="width: 36px;">--}}
+{{--                                            </colgroup>--}}
                                             <thead>
+{{--                                            <tr>--}}
+{{--                                                <th style="width: 77px;"></th>--}}
+{{--                                                <th style="width: 163px;"></th>--}}
+{{--                                                <th style="width: 158px;"></th>--}}
+{{--                                                <th style="width: 163px;"></th>--}}
+{{--                                                <th></th>--}}
+{{--                                                <th style="width: 109px;"></th>--}}
+{{--                                                <th style="width: 121px;"></th>--}}
+{{--                                                <th style="width: 105px;"></th>--}}
+{{--                                                <th style="width: 95px;"></th>--}}
+{{--                                                <th style="width: 79px;"></th>--}}
+{{--                                                <th style="width: 79px;"></th>--}}
+{{--                                                <th style="width: 79px;"></th>--}}
+{{--                                            </tr>--}}
                                             <tr role="row">
-                                                <th class="text-center" style="width: 34px;">번호</th>
-                                                <th class="text-center" style="width: 120px;">분류</th>
-                                                <th class="text-center" style="width: 108px;">사진</th>
-                                                <th class="text-center" style="width: 120px;">날짜</th>
+                                                <th class="text-center">번호</th>
+                                                <th class="text-center">분류</th>
+                                                <th class="text-center">사진</th>
+                                                <th class="text-center">날짜</th>
                                                 <th class="text-center">제목</th>
-                                                <th class="text-center" style="width: 84px;">이동아이콘</th>
-                                                <th class="text-center" style="width: 96px;">공유주소</th>
-{{--                                                <th class="text-center" style="width: 80px;">공유주소</th>--}}
-                                                <th class="text-center" style="width: 80px;">미리보기</th>
-                                                <th class="text-center" style="width: 52px;">좋아요</th>
-                                                <th class="text-center" style="width: 36px;">댓글</th>
-                                                <th class="text-center" style="width: 36px;">공유</th>
-                                                <th class="text-center" style="width: 36px;">읽기</th>
+                                                <th class="text-center">이동아이콘</th>
+                                                <th class="text-center">공유주소</th>
+                                                <th class="text-center">미리보기</th>
+                                                <th class="text-center">좋아요</th>
+                                                <th class="text-center">댓글</th>
+                                                <th class="text-center">공유</th>
+                                                <th class="text-center">읽기</th>
+
+{{--                                                <th class="text-center" style="width: 34px;">번호</th>--}}
+{{--                                                <th class="text-center" style="width: 120px;">분류</th>--}}
+{{--                                                <th class="text-center" style="width: 133px;">사진</th>--}}
+{{--                                                <th class="text-center" style="width: 120px;">날짜</th>--}}
+{{--                                                <th class="text-center">제목</th>--}}
+{{--                                                <th class="text-center" style="width: 84px;">이동아이콘</th>--}}
+{{--                                                <th class="text-center" style="width: 96px;">공유주소</th>--}}
+{{--                                                <th class="text-center" style="width: 80px;">미리보기</th>--}}
+{{--                                                <th class="text-center" style="width: 52px;">좋아요</th>--}}
+{{--                                                <th class="text-center" style="width: 36px;">댓글</th>--}}
+{{--                                                <th class="text-center" style="width: 36px;">공유</th>--}}
+{{--                                                <th class="text-center" style="width: 36px;">읽기</th>--}}
 
                                                 <!--th class="text-center" style="width: 70px;">번호</th>
                                                 <th class="text-center" style="width: 160px;">분류</th>
@@ -228,6 +269,11 @@
     <x-component-grid type="styles"></x-component-grid>
 @endpush
 
+@push('styles_after')
+    <style>
+    </style>
+@endpush
+
 @push('scripts_before')
     <x-component-grid type="scripts"></x-component-grid>
 @endpush
@@ -308,7 +354,7 @@
 
             // td.eq(4).find('.title').dataset.url = 'aaa';
             // td.eq(4).find('.title').data('aaass', 'dfsdfsd');
-            td.eq(4).find('.title').attr('data-url', context['url']);
+            td.eq(4).find('.title').attr('data-url', context['editUrl']);
             td.eq(4).find('.title').text(item['title']);
 
             if(bannerIconInfo['bannerIcon']) {
@@ -322,6 +368,7 @@
 
             td.eq(6).find('.shareUrl').attr('data-idx', context['po_idx']);
 
+            td.eq(7).find('.viewUrl').attr('data-url', context['viewUrl']);
             td.eq(7).find('.viewUrl').attr('data-idx', context['po_idx']);
 
             td.eq(8).find('.po_like').text(fnComma(context['po_like']));
@@ -391,7 +438,7 @@
 
                 "paging": true,
                 "pagingType": "full_numbers",
-                "pageLength": 10,
+                "pageLength": 20,
                 "lengthChange": false,
                 "searching": false,
                 "ordering": true,
@@ -399,6 +446,18 @@
                 "autoWidth": false,
                 "order": [0, 'desc'],     // 정렬 기준 : 컬럼 순번은 0부터 시작, asc 또는 desc
                 "columnDefs": [
+                    { "width": "34px", "targets": 0 },
+                    { "width": "120px", "targets": 1 },
+                    { "width": "133px", "targets": 2 },
+                    { "width": "120px", "targets": 3 },
+                    { "width": "84px", "targets": 5 },
+                    { "width": "96px", "targets": 6 },
+                    { "width": "80px", "targets": 7 },
+                    { "width": "52px", "targets": 8 },
+                    { "width": "36px", "targets": 9 },
+                    { "width": "36px", "targets": 10 },
+                    { "width": "36px", "targets": 11 },
+
                     {"orderable": false, "targets": [2, 5, 6, 7]},     // 정렬 기준에서 제외
                     {
                         "type": "currency",         // currency, numeric-comma
@@ -417,6 +476,13 @@
                         ]
                         // "targets": "_all"
                     },
+                    // {   // 검색 조건에서 제외할 항목
+                    //     "searchable": false,
+                    //     "targets": [
+                    //         0, 1, 2, 3,
+                    //         5, 6, 7, 8, 9, 10, 11,
+                    //     ]
+                    // },
                 ],
                 "language": {
                     "paginate": {
@@ -434,9 +500,9 @@
 
                 // 헤더 고정
                 // "fixedHeader" : {
-                //     header : true,
-                //     footer : false,
-                //     headerOffset: 0
+                //     "header" : true,
+                //     "footer" : false,
+                //     "headerOffset": 0,
                 // },
                 // fixedColumns: {
                 //     leftColumns: 1,
@@ -452,10 +518,52 @@
          */
         function fnCreateGrid(config)
         {
+            // // 추가 검색 기능 시작 1
+            // $.fn.dataTable.ext.search.push(
+            //     function( settings, data, dataIndex ) {
+            //         // grid1 데이터테이블만 적용
+            //         if ( settings.nTable.id === 'grid1' ) {
+            //             let title = data[4] ? $(data[4]).text() : ''; // use data for the age column
+            //             let keyWord = $('#keyWord').val();
+            //
+            //             // Escape regular expression special characters
+            //             let _re_escape_regex = new RegExp( '(\\' + [ '/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\', '$', '^', '-' ].join('|\\') + ')', 'g' );
+            //
+            //             // Escape a string such that it can be used in a regular expression
+            //             let regExp_keyWord = keyWord.replace( _re_escape_regex, '\\$1' );
+            //
+            //             let rpSearch = new RegExp(regExp_keyWord, 'i');
+            //
+            //             return rpSearch.test( title );
+            //         }
+            //     }
+            // );
+            // // 추가 검색 기능 시작 2
+
             let grid1 = $('#grid1').DataTable(config);
 
+            // datatableEdit({
+            //     dataTable : grid1,
+            //     columnDefs : [
+            //         {
+            //             targets : 0
+            //         }
+            //     ]
+            // });
+
+            // // 추가 검색 기능 시작 2
+            // // Event listener to the two range filtering inputs to redraw on input
+            // $('#keyWord').keyup( function() {
+            //     grid1.draw();
+            //     // grid1.row( $(this) ).invalidate().draw();
+            // } );
+            // // $('#keyWord').on( 'keyup', function () {
+            // //     grid1.search( this.value ).draw();
+            // // } );
+            // // 추가 검색 기능 종료 2
+
             // 팝업
-            const pop_view_url = '{{ $viewUrl }}';
+            {{--const pop_view_url = '{{ $viewUrl }}';--}}
             $('#grid1 tbody').on('click', 'tr td', function (index, item) {
                 // 팝업 - 포스트 수정
                 if (this.querySelectorAll('.pop_edit').length > 0) {
@@ -469,7 +577,8 @@
                 // 팝업 - 미리보기
                 else if (this.querySelectorAll('.pop_view').length > 0) {
                     let pop_view = window.open(
-                        pop_view_url + this.querySelectorAll('.pop_view')[0].dataset.idx,
+                        // pop_view_url + this.querySelectorAll('.pop_view')[0].dataset.idx,
+                        this.querySelectorAll('.pop_view')[0].dataset.url,
                         'pop_view',
                         'scrollbars=yes, toolbar=0, location=0, directories=0, status=1, menubar=0, copyhistory=0, width=600, height=800, resizable=1'
                     );

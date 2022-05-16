@@ -55,6 +55,9 @@ class Post extends Model
 //        'po_status',
     ];
 
+    // Observers & Database Transactions
+    public $afterCommit = true;
+
     /**
      * Set the value of the "updated at" attribute.
      *
@@ -83,6 +86,9 @@ class Post extends Model
     public static function list(string $cateCode, array $where) :object
     {
         $po_title = $where['po_title'] ?? '';
+//        $po_content = $po_title . ' 6';
+//        $po_content = '';
+//        $po_title = '';
 
         return static::select(
             'po_idx', 'po_cate', 'po_title', 'po_image', 'po_date', 'po_like', 'po_comment', 'po_share', 'po_read', 'po_icon_use', 'po_icon', 'po_icon_url'
@@ -91,9 +97,34 @@ class Post extends Model
             ->when($cateCode, function ($query, $cateCode) {
                 return $query->where('po_cate', $cateCode);
             })
+            // 검색 : grid 기능으로 대체 불가 (내용 검색 안됨)
             ->when($po_title, function ($query, $po_title) {
-                return $query->where('po_title', 'like', '%'. $po_title .'%');
+                // 하위 조건절을 소괄호로 묶음
+                $query->where(function($query) use ($po_title) {
+                    $query->where('po_title', 'like', '%'. $po_title .'%')
+                        ->orWhere('po_content', 'like', '%'. $po_title .'%');
+                });
             })
+
+//            ->when($po_title, function ($query, $po_title) {
+//                return $query->where('po_title', 'like', '%'. $po_title .'%');
+//            })
+//            ->where(function($query) use ($po_title) {
+//                $query->where('po_title', 'like', '%'. $po_title .'%')
+//                    ->orWhere('po_content', 'like', '%'. $po_title .'%');
+//            })
+
+//                // 소괄호로 묶으면서 when 메소드에 여러개의 파라미터 사용하기
+//                // 리턴되는 쿼리가 없으면 해당 조건절은 생성되지 않음 ($po_title, $po_content 가 모두 빈 값인 경우)
+//            ->where(function($query) use ($po_title, $po_content) {
+//                $query->when($po_title, function ($query, $po_title) {
+//                    $query->where('po_title', 'like', '%'. $po_title .'%');
+//                });
+//                $query->when($po_content, function ($query, $po_content) {
+//                    $query->where('po_content', 'like', '%'. $po_content .'%');
+//                });
+//            })
+
             ->orderBy('po_date', 'desc')
             ->get();
     }

@@ -6,6 +6,7 @@ use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Foundation\Application as AppClass;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +17,7 @@ use Illuminate\Http\File;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 
 class Posts extends Controller
@@ -130,7 +131,8 @@ class Posts extends Controller
             $listItem['title'] = $item->po_title;
             $listItem['bannerIconInfo'] = $item->bannerIconInfo;
             $listItem['context'] = $item;
-            $listItem['context']['url'] = route('posts.edit', $item->po_idx);
+            $listItem['context']['editUrl'] = route('posts.edit', $item->po_idx);
+            $listItem['context']['viewUrl'] = route('posts.show', $item->po_idx);
             $postsList[$idx] = $listItem;
         }
 
@@ -138,7 +140,7 @@ class Posts extends Controller
             'subMenuName' => $this->subMenuName,
             'posts' => $postsList,
             'shareUrl' => $this->shareUrl,
-            'viewUrl' => $this->viewUrl,
+//            'viewUrl' => $this->viewUrl,      // $listItem['context']['viewUrl'] 값으로 대체
             'postsCnt' => $postsCnt,
             'keyWord' => $this->keyWord,
         );
@@ -207,7 +209,7 @@ class Posts extends Controller
         if ($validator->fails()) {
             $parameter = $request->all();
             // 첨부파일를 가지고 flash-message 로 이동시 오류 발생
-            unset($parameter['po_image'], $parameter['po_content'], $parameter['files']);
+            unset($parameter['po_icon'], $parameter['po_image'], $parameter['files'], $parameter['po_content']);
 //            return redirect('posts/create')
 //                ->withErrors($validator)
 //                ->withInput();
@@ -223,44 +225,52 @@ class Posts extends Controller
         $po_icon_use = $request->po_icon_use ?? 0;
         $po_icon_url = $request->po_icon_url ?? '';
 
-        if ($request->hasFile('po_icon')) {
-            $po_icon = $request->file('po_icon');
-            $fileName = $po_icon->getClientOriginalName();
-            $fileName_po_icon = date('Ymd_His_') . $fileName;
-
-            Storage::disk('post-banner')->put($fileName_po_icon, file_get_contents($po_icon));
-            $po_icon = $fileName_po_icon;
-//            $po_icon = Storage::disk('post-banner')->url($fileName_po_icon);
+        $po_icon = '';
+        $fileResult = saveFile($request, 'po_icon', 'post-banner');
+        if ($fileResult['result'] === 'success') {
+            $po_icon = $fileResult['fileName'];
         }
 
-        if ($request->hasFile('po_image')) {
-//        if (!empty($request->po_image)) {
-//            $po_image = $request->po_image;
-            $po_image = $request->file('po_image');
-            $fileExtension = $po_image->extension();
-//            $fileMimeType = $po_image->getClientMimeType();
-            $fileName = $po_image->getClientOriginalName();
-            $fileSize = $po_image->getSize();
-//            ddd($po_image, $fileExtension, $fileName, $fileSize);
-            // 저장 파일명
-            $fileName_po_image = date('Ymd_His_') . $fileName;
+//        if ($request->hasFile('po_icon')) {
+//            $po_icon = $request->file('po_icon');
+//            $fileName = $po_icon->getClientOriginalName();
+//            $fileName_po_icon = date('Ymd_His_') . $fileName;
+//
+//            Storage::disk('post-banner')->put($fileName_po_icon, file_get_contents($po_icon));
+//            $po_icon = $fileName_po_icon;
+////            $po_icon = Storage::disk('post-banner')->url($fileName_po_icon);
+//        }
 
-            Storage::disk('thumb')->put($fileName_po_image, file_get_contents($po_image));
-            $po_image = $fileName_po_image;
-//            $po_image = Storage::disk('thumb')->url($fileName_po_image);
+        $po_image = '';
+        $fileResult = saveFile($request, 'po_image', 'thumb');
+        if ($fileResult['result'] === 'success') {
+            $po_image = $fileResult['fileName'];
         }
 
+//        if ($request->hasFile('po_image')) {
+////        if (!empty($request->po_image)) {
+////            $po_image = $request->po_image;
+//            $po_image = $request->file('po_image');
+//            $fileExtension = $po_image->extension();
+////            $fileMimeType = $po_image->getClientMimeType();
+//            $fileName = $po_image->getClientOriginalName();
+//            $fileSize = $po_image->getSize();
+////            ddd($po_image, $fileExtension, $fileName, $fileSize);
+//            // 저장 파일명
+//            $fileName_po_image = date('Ymd_His_') . $fileName;
+//
+//            Storage::disk('thumb')->put($fileName_po_image, file_get_contents($po_image));
+//            $po_image = $fileName_po_image;
+////            $po_image = Storage::disk('thumb')->url($fileName_po_image);
+//        }
+
+        $po_content = $request->po_content;
         if ($request->hasFile('files')) {
-            $po_content = $this->saveImg($request->po_content, 'editor');
+//            $po_content = $this->saveImg($request->po_content, 'editor');
+            $po_content = saveContentImg($request->po_content, 'editor');
         }
 
-        /**
-         * 엘로퀀트는 enableQueryLog 메소드로 쿼리 로그 확인 불가능
-         * app/Providers/AppServiceProvider.php > boot > DB::listen 메소드로 처리
-         */
-//        DB::enableQueryLog();
-
-        $post = $modelPost::create([
+        $data = array(
             'po_cate' => $request->po_cate,
             'po_title' => $request->po_title,
             'po_date' => $po_date,
@@ -276,7 +286,46 @@ class Posts extends Controller
             'po_share' => 0,
             'po_read' => 0,
             'po_order' => 0,
-        ]);
+        );
+
+        /**
+         * 엘로퀀트는 enableQueryLog 메소드로 쿼리 로그 확인 불가능
+         * app/Providers/AppServiceProvider.php > boot > DB::listen 메소드로 처리
+         */
+//        DB::enableQueryLog();
+
+        // 아침편지 디비는 MyIsam 이라 트랜잭션 지원이 안됨 OTL
+//        DB::beginTransaction();
+//        DB::connection('morningletters')->beginTransaction();
+        // 이건 쿼리가 실행되서 안되고
+        // 트랜잭션을 걸 수 있다면
+        // 트랜잭션 > listen > 롤백을 실행하면 쿼리만 확인 가능할거 같다. (테스트 필요)
+//        DB::listen(function ($query) {
+//            $sql = $query->sql;
+//            $bindings = $query->bindings;
+//            $queries = array(array('query' => $sql, 'bindings' => $bindings));
+//            ddd(getSqlWithBindings($queries));
+//        });
+
+        // 이건 구문 자체가 잘못된거 같다.
+        // 하지만 예외 오류에서 쿼리문 확인 가능
+        // 오류 발생으로 insert 실행 안됨
+        // 문자열에 홑따옴표 누락되어있음
+//        $builder = DB::table($modelPost->getTable());
+//        $sql = $builder->getGrammar()->compileInsert($builder->insert($data));
+//        ddd($sql);
+
+        // 이건 그냥 참고용으로 놔둠
+////        $builder = DB::connection('morningletters')->table($modelPost->getTable());
+//        $sql = $builder->getGrammar()->compileInsert($builder->insert($data));
+////        $sql = $builder->getGrammar()->compileDelete($builder->where('po_idx', '<>', 'sdf'));
+//        $sql = $modelPost::create($data)->toSql();
+//        ddd($sql);
+
+        // 게시물 등록 (save 메소드도 가능)
+        $post = $modelPost::create($data);
+//        DB::rollBack();
+//        DB::connection('morningletters')->rollBack();
         /**
          * insert into `po_list` (`po_cate`, `po_title`, `po_date`, `po_content`, `po_image`, `po_regdate`, `po_moddate`)
          * values (10, 감동 테스트 1, 2020-03-08 11:12:13, 감동 테스트 1, ?, 2022-03-08 11:33:21, 2022-03-08 11:33:21)
@@ -304,11 +353,14 @@ class Posts extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\post  $r
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    public function show(post $r)
+    public function show(int $id = null)
     {
-        //
+        // HTTP 응답이 가능한 코드만 message 기능 사용 가능
+        // 라우트 정책에따라 게시물번호가 없는 uri 는 (http://lte.c/posts) 목록으로 이동하므로 abort 정책이 필요 없음
+//        abort_if(empty($id), ResponseAlias::HTTP_FORBIDDEN, '조회할 게시물 번호 없음');
+        return redirect()->away($this->viewUrl . $id);
     }
 
     /**

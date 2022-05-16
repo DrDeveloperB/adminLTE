@@ -24,9 +24,9 @@ Route::get('/', function () {
 Route::GET('posts', [Posts::class, 'index'])->name('posts.index');
 Route::GET('posts/create', [Posts::class, 'create'])->name('posts.create');
 Route::POST('posts/store', [Posts::class, 'store'])->name('posts.store');
-Route::GET('posts/edit', [Posts::class, 'edit'])->name('posts.edit');
+Route::GET('posts/{po_idx}/edit', [Posts::class, 'edit'])->name('posts.edit');
 Route::PUT('posts/update', [Posts::class, 'update'])->name('posts.update');
-Route::GET('posts/show', [Posts::class, 'show'])->name('posts.show');
+Route::GET('posts/{po_idx?}', [Posts::class, 'show'])->name('posts.show');
 Route::DELETE('posts/destroy', [Posts::class, 'destroy'])->name('posts.destroy');
 Route::POST('posts/ajax_list', [Posts::class, 'ajax_list'])->name('posts.ajax_list');
 
