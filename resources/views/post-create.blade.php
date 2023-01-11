@@ -320,6 +320,7 @@
                 lang: 'ko-KR',
                 fontNames: fontList,
                 fontNamesIgnoreCheck: fontList,
+                addDefaultFonts: false,
                 // fontName: 'Arial',
             });
             {{--$('#summernote').summernote('code', '{{ isset($post) ? $post->body : '' }}');--}}

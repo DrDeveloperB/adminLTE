@@ -386,4 +386,9 @@ return [
         'img_profile_thumb' => '/data/profile/thumb/',      // 프로필 이미지 썸네일 경로
         'img_cmt' => '/data/cmt/',                          // 관리자 댓글 이미지 경로
     ],
+
+    'resultDefault' => [
+        'result' => 'fail', 'mainCode' => '9999', 'subCode' => '9999', 'message' => 'fail',
+        'argument' => [],
+    ],
 ];

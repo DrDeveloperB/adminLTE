@@ -4,10 +4,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
-$resultDefault = array('result' => 'fail', 'mainCode' => '9999', 'subCode' => '9999', 'message' => 'fail',
-    'argument' => array(),
-);
-
 if (!function_exists('getSqlWithBindings')) {
     /**
      * full query in binding
@@ -123,9 +119,7 @@ if (!function_exists('getPostCategory')) {
 if (!function_exists('saveFile')) {
     function saveFile(object $request, string $key, string $disk) :array
     {
-        global $resultDefault;
-
-        $result = $resultDefault;
+        $result = config('app.resultDefault');
         $result['argument'] = array('request' => $request, 'key' => $key, 'disk' => $disk,);
 //        $result['files'] = array();
 
@@ -171,9 +165,7 @@ if (!function_exists('saveFile')) {
 if (!function_exists('saveFiles')) {
     function saveFiles(object $request, array $keys): array
     {
-        global $resultDefault;
-
-        $result = $resultDefault;
+        $result = config('app.resultDefault');
         $result['argument'] = array('request' => $request, 'keys' => $keys,);
         $result['files'] = array();
 
