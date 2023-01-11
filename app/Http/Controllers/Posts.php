@@ -649,4 +649,23 @@ po_icon 값이 있고 micon1.png 와 이름이 같다면 전체(고정) 선택 �
         }
     }
 
+    public function chkUrl()
+    {
+        $url = 'https://www.jejuair.net/ko/ibe/booking/AvailSearch.do';
+        $result = chkUrl($url);
+        // $result = true;
+        $data = array(
+            'url' => $url,
+            'result' => $result,
+        );
+
+        // if ($result === false) {
+        //     var_dump($result);
+        //     sleep(3);
+        //     return redirect('chkUrl');
+        // }
+
+        return view('iframe', $data);
+        // return var_export($result, true);
+    }
 }

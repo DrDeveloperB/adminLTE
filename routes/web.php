@@ -29,6 +29,7 @@ Route::PUT('posts/update', [Posts::class, 'update'])->name('posts.update');
 Route::GET('posts/{po_idx?}', [Posts::class, 'show'])->name('posts.show');
 Route::DELETE('posts/destroy', [Posts::class, 'destroy'])->name('posts.destroy');
 Route::POST('posts/ajax_list', [Posts::class, 'ajax_list'])->name('posts.ajax_list');
+Route::GET('chkUrl', [Posts::class, 'chkUrl'])->name('posts.chkUrl');
 
 Route::resource('comments', Posts::class);
 Route::resource('notice', Posts::class);
